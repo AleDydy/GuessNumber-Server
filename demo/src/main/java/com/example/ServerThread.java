@@ -42,7 +42,7 @@ public class ServerThread extends Thread{
 
                     if (numberfromclient == numbertoguess) {
                         out.writeBytes("AAA" + "\n");
-
+                        
                         exit = false;
                     }
                 }
