@@ -12,37 +12,17 @@ import java.net.Socket;
  */
 public class App {
     public static void main(String[] args) {
+
         try {
-            ServerSocket servsock = new ServerSocket(6000);
-            Socket s = servsock.accept();
-            BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
-            DataOutputStream out = new DataOutputStream(s.getOutputStream());
+            ServerSocket servsock= new ServerSocket(3000);
 
-            int numbertoguess = (int) Math.floor(Math.random() * (100 - 1 + 1) + 1);
-            
-            boolean exit = true;
+            while(true){
+                Socket s=servsock.accept();
 
-            while (exit == true) {
-
-                String messagereceived = in.readLine();
-
-                int numberfromclient = Integer.parseInt(messagereceived);
-
-                if (numberfromclient < numbertoguess) {
-                    out.writeBytes("A" + "\n");
-                }
-
-                if (numberfromclient > numbertoguess) {
-                    out.writeBytes("AA" + "\n");
-                }
-
-                if (numberfromclient == numbertoguess) {
-                    out.writeBytes("AAA" + "\n");
-
-                    servsock.close();
-                    exit = false;
-                }
+                ServerThread thread=new ServerThread(10, s);
+                thread.start();
             }
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
